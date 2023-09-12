@@ -1,7 +1,7 @@
 public class ArrayDeque<T> {
     private T[] arrayList;
     private int usedItem;
-    private int FACTOR = 2;
+    private final int FACTOR = 2;
 
     public ArrayDeque() {
         arrayList = (T[]) new Object[8];
