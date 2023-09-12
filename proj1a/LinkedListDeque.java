@@ -19,28 +19,29 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-    private void addFirstItem(T t) {
+    private void addFirstItem(T item) {
         sentinel = new ListNode(null, null, null);
-        sentinel.next = new ListNode(sentinel, t, sentinel);
+        sentinel.next = new ListNode(sentinel, item, sentinel);
         sentinel.prev = sentinel.next;
         size = 1;
     }
 
-    public void addFirst(T t) {
+    public void addFirst(T item) {
         if (size == 0) {
-            addFirstItem(t);
+            addFirstItem(item);
             return;
         }
-        sentinel.next = new ListNode(sentinel, t, sentinel.next);
+        sentinel.next = new ListNode(sentinel, item, sentinel.next);
+        sentinel.next.next.prev = sentinel.next;
         size += 1; 
     }
 
-    public void addLast(T t) {
+    public void addLast(T item) {
         if (size == 0) {
-            addFirstItem(t);
+            addFirstItem(item);
             return;
         }
-        sentinel.prev.next = new ListNode(sentinel.prev, t, sentinel);
+        sentinel.prev.next = new ListNode(sentinel.prev, item, sentinel);
         sentinel.prev = sentinel.prev.next;
         size += 1;
     }
@@ -71,7 +72,6 @@ public class LinkedListDeque<T> {
         }
         ListNode temp = sentinel.next.next;
         T item = sentinel.next.item;
-        sentinel.next = null;
         temp.prev = sentinel;
         sentinel.next = temp;
         size -= 1;
@@ -84,7 +84,6 @@ public class LinkedListDeque<T> {
         }
         ListNode temp = sentinel.prev.prev;
         T item = sentinel.prev.item;
-        sentinel.prev = null;
         temp.next = sentinel;
         sentinel.prev = temp;
         size -= 1;
@@ -115,5 +114,5 @@ public class LinkedListDeque<T> {
         }
         return getRecursiveNode(index).item;
     }
-        
+    
 }
