@@ -100,37 +100,31 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (arrayList.length >= LEASTLENGTH && (4 * size) < (arrayList.length)) {
+        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
             reducingArray();
         }
-        T item;
         if (nextFirst == arrayList.length - 1) {
-            item = arrayList[0];
-            arrayList[0] = null;
             nextFirst = 0;
         } else {
             nextFirst += 1;
-            item = arrayList[nextFirst];
-            arrayList[nextFirst] = null;
         }
+        T item = arrayList[nextFirst];
+        arrayList[nextFirst] = null;
         size -= 1;
         return item;
     }
 
     public T removeLast() {
-        if (arrayList.length >= LEASTLENGTH && (4 * size) < (arrayList.length)) {
+        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
             reducingArray();
         }
-        T item;
         if (nextLast == 0) {
-            item = arrayList[arrayList.length - 1];
-            arrayList[arrayList.length - 1] = null;
             nextLast = arrayList.length - 1;
         } else {
             nextLast -= 1;
-            item = arrayList[nextLast];
-            arrayList[nextLast] = null;
         }
+        T item = arrayList[nextLast];
+        arrayList[nextLast] = null;
         size -= 1;
         return item;
     }
