@@ -14,6 +14,11 @@ public class ArrayDeque<T> {
     
     private void enlargingArray() {
         T[] a = (T[]) new Object[arrayList.length * FACTOR];
+        if (nextFirst == arrayList.length - 1) {
+            nextFirst = 0;
+        } else {
+            nextFirst += 1;
+        }
         int index1 = a.length / 4;
         System.arraycopy(arrayList, nextFirst, a, index1, arrayList.length - nextFirst);
         int index2 = index1 + arrayList.length - nextFirst;
@@ -78,6 +83,11 @@ public class ArrayDeque<T> {
 
     private void reducingArray() {
         T[] a = (T[]) new Object[arrayList.length / FACTOR];
+        if (nextFirst == arrayList.length - 1) {
+            nextFirst = 0;
+        } else {
+            nextFirst += 1;
+        }
         int index1 = a.length / 4;
         System.arraycopy(arrayList, nextFirst, a, index1, arrayList.length - nextFirst);
         int index2 = index1 + arrayList.length - nextFirst;
@@ -89,7 +99,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (4 * size < arrayList.length) {
+        if (arrayList.length >= 16 && (4 * size) < (arrayList.length)) {
             reducingArray();
         }
         T item;
@@ -107,7 +117,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (4 * size < arrayList.length / 4) {
+        if (arrayList.length >= 16 && (4 * size) < (arrayList.length)) {
             reducingArray();
         }
         T item;
@@ -128,6 +138,17 @@ public class ArrayDeque<T> {
         if (size == 0 || index >= arrayList.length) {
             return null;
         }
-        return arrayList[index];
+        int realIndex = nextFirst;
+        while (index > 0) {
+            if (realIndex == arrayList.length - 1) {
+                realIndex = 0;
+            } else {
+                realIndex += 1;
+            }
+            index -= 1;
+        }
+        realIndex += 1;
+        return arrayList[realIndex];
     }
+
 }
