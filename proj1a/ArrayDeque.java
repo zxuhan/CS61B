@@ -90,12 +90,19 @@ public class ArrayDeque<T> {
             nextFirst += 1;
         }
         int index1 = a.length / 4;
-        System.arraycopy(arrayList, nextFirst, a, index1, arrayList.length - nextFirst);
-        int index2 = index1 + arrayList.length - nextFirst;
-        System.arraycopy(arrayList, 0, a, index2, nextFirst);
+        if (nextFirst < nextLast) {
+            System.arraycopy(arrayList, nextFirst, a, index1, size);
+            nextFirst = index1 - 1;
+            nextLast = index1 + size;
+        } else {
+            System.arraycopy(arrayList, nextFirst, a, index1, arrayList.length - nextFirst);
+            int index2 = index1 + arrayList.length - nextFirst;
+            System.arraycopy(arrayList, 0, a, index2, nextLast);
 
-        nextFirst = index1 - 1;
-        nextLast = index1 + arrayList.length;
+            nextFirst = index1 - 1;
+            nextLast = index1 + size;
+        }
+
         arrayList = a;
     }
 
