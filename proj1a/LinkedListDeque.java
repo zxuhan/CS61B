@@ -81,7 +81,7 @@ public class LinkedListDeque<T> {
     }
     
     public T removeLast() {
-        if (size == 0){
+        if (size == 0) {
             return null;
         }
         ListNode temp = sentinel.prev.prev;

@@ -4,6 +4,7 @@ public class ArrayDeque<T> {
     private int nextLast;
     private int size;
     private final int FACTOR = 2;
+    private final int LEASTLENGTH = 16;
 
     public ArrayDeque() {
         arrayList = (T[]) new Object[8];
@@ -99,7 +100,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (arrayList.length >= 16 && (4 * size) < (arrayList.length)) {
+        if (arrayList.length >= LEASTLENGTH && (4 * size) < (arrayList.length)) {
             reducingArray();
         }
         T item;
@@ -117,7 +118,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (arrayList.length >= 16 && (4 * size) < (arrayList.length)) {
+        if (arrayList.length >= LEASTLENGTH && (4 * size) < (arrayList.length)) {
             reducingArray();
         }
         T item;
@@ -150,5 +151,4 @@ public class ArrayDeque<T> {
         realIndex += 1;
         return arrayList[realIndex];
     }
-
 }
