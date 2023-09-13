@@ -21,28 +21,13 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-    /* private void addFirstItem(T item) {
-        sentinel = new ListNode(null, null, null);
-        sentinel.next = new ListNode(sentinel, item, sentinel);
-        sentinel.prev = sentinel.next;
-        size = 1;
-    } */
-
     public void addFirst(T item) {
-        /* if (size == 0) {
-            addFirstItem(item);
-            return;
-        } */
         sentinel.next = new ListNode(sentinel, item, sentinel.next);
         sentinel.next.next.prev = sentinel.next;
         size += 1; 
     }
 
     public void addLast(T item) {
-        /* if (size == 0) {
-            addFirstItem(item);
-            return;
-        } */
         sentinel.prev.next = new ListNode(sentinel.prev, item, sentinel);
         sentinel.prev = sentinel.prev.next;
         size += 1;

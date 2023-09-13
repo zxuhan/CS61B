@@ -12,7 +12,7 @@ public class ArrayDeque<T> {
         nextLast = nextFirst + 1;
         size = 0;
     }
-    
+
     private void enlargingArray() {
         T[] a = (T[]) new Object[arrayList.length * FACTOR];
         if (nextFirst == arrayList.length - 1) {
@@ -24,12 +24,12 @@ public class ArrayDeque<T> {
         System.arraycopy(arrayList, nextFirst, a, index1, arrayList.length - nextFirst);
         int index2 = index1 + arrayList.length - nextFirst;
         System.arraycopy(arrayList, 0, a, index2, nextFirst);
-        
+
         nextFirst = index1 - 1;
         nextLast = index1 + arrayList.length;
         arrayList = a;
     }
-    
+
     public void addFirst(T item) {
         if (size == arrayList.length) {
             enlargingArray();
@@ -38,7 +38,7 @@ public class ArrayDeque<T> {
         if (nextFirst == 0) {
             nextFirst = arrayList.length - 1;
         } else {
-            nextFirst -= 1; 
+            nextFirst -= 1;
         }
         size += 1;
     }
@@ -101,7 +101,7 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size == 0) {
-            return null;
+            return null; 
         }
 
         if (nextFirst == arrayList.length - 1) {
@@ -124,7 +124,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        
+
         if (nextLast == 0) {
             nextLast = arrayList.length - 1;
         } else {
@@ -145,9 +145,9 @@ public class ArrayDeque<T> {
         if (size == 0 || index >= arrayList.length) {
             return null;
         }
-        
+
         int realIndex = nextFirst;
-        while (index > 0) {
+        while (index >= 0) {
             if (realIndex == arrayList.length - 1) {
                 realIndex = 0;
             } else {
@@ -155,7 +155,6 @@ public class ArrayDeque<T> {
             }
             index -= 1;
         }
-        realIndex += 1;
         return arrayList[realIndex];
     }
 }
