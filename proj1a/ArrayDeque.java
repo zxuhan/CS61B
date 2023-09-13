@@ -100,9 +100,10 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
-            reducingArray();
+        if (size == 0) {
+            return null;
         }
+
         if (nextFirst == arrayList.length - 1) {
             nextFirst = 0;
         } else {
@@ -111,13 +112,19 @@ public class ArrayDeque<T> {
         T item = arrayList[nextFirst];
         arrayList[nextFirst] = null;
         size -= 1;
+
+        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
+            reducingArray();
+        }
+
         return item;
     }
 
     public T removeLast() {
-        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
-            reducingArray();
+        if (size == 0) {
+            return null;
         }
+        
         if (nextLast == 0) {
             nextLast = arrayList.length - 1;
         } else {
@@ -126,6 +133,11 @@ public class ArrayDeque<T> {
         T item = arrayList[nextLast];
         arrayList[nextLast] = null;
         size -= 1;
+
+        if ((arrayList.length >= LEASTLENGTH) && ((4 * size) < arrayList.length)) {
+            reducingArray();
+        }
+
         return item;
     }
 
@@ -133,6 +145,7 @@ public class ArrayDeque<T> {
         if (size == 0 || index >= arrayList.length) {
             return null;
         }
+        
         int realIndex = nextFirst;
         while (index > 0) {
             if (realIndex == arrayList.length - 1) {
