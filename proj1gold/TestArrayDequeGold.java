@@ -9,7 +9,7 @@ public class TestArrayDequeGold {
         ArrayDequeSolution<Integer> ads = new ArrayDequeSolution<>();
         String msg = "";
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             double randomNum1 = StdRandom.uniform();
  
             if (randomNum1 < 0.25 && randomNum1 >= 0) {
