@@ -7,12 +7,12 @@ public class TestArrayDequeGold {
     public void test1() {
         StudentArrayDeque<Integer> sad = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> ads = new ArrayDequeSolution<>();
+        String msg = "";
         
         for (int i = 0; i < 10; i++) {
             double randomNum1 = StdRandom.uniform();
-            String msg = "";
-
-            if (randomNum1 < 0.25) {
+ 
+            if (randomNum1 < 0.25 && randomNum1 >= 0) {
                 sad.addFirst(i);
                 ads.addFirst(i);
                 msg = msg + "addFirst(" + i + ")\n";
@@ -20,16 +20,16 @@ public class TestArrayDequeGold {
                 sad.addLast(i);
                 ads.addLast(i);
                 msg = msg + "addLast(" + i + ")\n";
-            } else if (randomNum1 >= 0.5 && randomNum1 < 0.75 && !sad.isEmpty()) {
-                Integer sadInt = sad.removeFirst();
-                Integer adsInt = ads.removeFirst();
-                msg = msg + "removeFirst()";
-                assertEquals(msg, sadInt, adsInt);
-            } else if (randomNum1 >= 0.75 && randomNum1 < 1 && !sad.isEmpty()) {
-                Integer sadInt = sad.removeLast();
-                Integer adsInt = ads.removeLast();
-                msg = msg + "removeLast()";
-                assertEquals(msg, sadInt, adsInt);
+            } else if (randomNum1 >= 0.5 && randomNum1 < 0.75) {
+                Integer actual = sad.removeFirst();
+                Integer expected = ads.removeFirst();
+                msg = msg + "removeFirst()\n";
+                assertEquals(msg + "removeFirst()", expected, actual);
+            } else if (randomNum1 >= 0.75 && randomNum1 < 1) {
+                Integer actual = sad.removeLast();
+                Integer expected = ads.removeLast();
+                msg = msg + "removeLast()\n";
+                assertEquals(msg + "removeLast()", expected, actual);
             }
 
         }
