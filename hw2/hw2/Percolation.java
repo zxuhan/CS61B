@@ -6,13 +6,13 @@ public class Percolation {
     private int[][] grid;
     private int openSites;
     private int gridSize;
-    private WeightedQuickUnionUF DJset;
+    private WeightedQuickUnionUF djSet;
     private int visualTopSite;
     private int visualDownSite;
 
     public Percolation(int N) {
         if (N <= 0) {
-            throw new IllegalArgumentException("the size of a grid cannot be less or equal than 0.");
+            throw new IllegalArgumentException("the size should be a positive number!");
         }
         openSites = 0;
         gridSize = N;
@@ -23,7 +23,9 @@ public class Percolation {
             }
         }
 
-        DJset = new WeightedQuickUnionUF(N * N + 2);
+        djSet = new WeightedQuickUnionUF(N * N + 2);
+
+        //Set a visual top site and a visual down site
         visualTopSite = N * N;
         visualDownSite = N * N + 1;
 
@@ -33,32 +35,39 @@ public class Percolation {
         if (!checkSide(row, col)) {
             throw new IndexOutOfBoundsException("Site is not inside the grid!");
         }
+        // Avoid opening a site again.
+        if (isOpen(row, col)) {
+            return;
+        }
+
         grid[row][col] = 1;
         openSites += 1;
 
         int currentSite = turn2DTo1D(row, col);
 
-        if (!percolates() && row == 0) {
-            DJset.union(currentSite, visualTopSite);
+        // Connect the first row with the visual top site.
+        if (row == 0) {
+            djSet.union(currentSite, visualTopSite);
         }
+        // Before percolates, connect the last row with the visual top site.
         if (!percolates() && row == gridSize - 1) {
-            DJset.union(currentSite, visualDownSite);
+            djSet.union(currentSite, visualDownSite);
         }
 
         if (checkSide(row - 1, col) && isOpen(row - 1, col)) {
-            DJset.union(currentSite, turn2DTo1D(row - 1, col));
+            djSet.union(currentSite, turn2DTo1D(row - 1, col));
         }
 
         if (checkSide(row + 1, col) && isOpen(row + 1, col)) {
-            DJset.union(currentSite, turn2DTo1D(row + 1, col));
+            djSet.union(currentSite, turn2DTo1D(row + 1, col));
         }
 
         if (checkSide(row, col - 1) && isOpen(row, col - 1)) {
-            DJset.union(currentSite, turn2DTo1D(row, col - 1));
+            djSet.union(currentSite, turn2DTo1D(row, col - 1));
         }
 
         if (checkSide(row, col + 1) && isOpen(row, col + 1)) {
-            DJset.union(currentSite, turn2DTo1D(row, col + 1));
+            djSet.union(currentSite, turn2DTo1D(row, col + 1));
         }
 
     }
@@ -77,16 +86,15 @@ public class Percolation {
         if (!isOpen(row, col)) {
             return false;
         }
-        return DJset.connected(visualTopSite, turn2DTo1D(row, col));
+        return djSet.connected(visualTopSite, turn2DTo1D(row, col));
     }
 
     public int numberOfOpenSites() {
-        System.out.println("current open site is" + openSites);
         return openSites;
     }
 
     public boolean percolates() {
-        return DJset.connected(visualTopSite, visualDownSite);
+        return djSet.connected(visualTopSite, visualDownSite);
     }
 
     private boolean checkSide(int row, int col) {
@@ -98,5 +106,15 @@ public class Percolation {
 
     private int turn2DTo1D(int row, int col) {
         return row * gridSize + col;
+    }
+
+    public static void main(String[] args) {
+        Percolation p = new Percolation(3);
+        p.open(0, 0);
+        p.open(1, 1);
+        System.out.println(p.isOpen(0, 0));
+        System.out.println(p.isFull(1, 1));
+        System.out.println(p.isOpen(2, 2));
+        System.out.println(p.numberOfOpenSites());
     }
 }

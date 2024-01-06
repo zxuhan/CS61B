@@ -8,8 +8,8 @@ public class PercolationStats {
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
-            throw new IllegalArgumentException("the size of a grid or experiment times should be positive numbers!");
-        }
+            throw new IllegalArgumentException("the size and experiment times should be positive numbers!");
+        }   
         stats = new double[T];
         for (int i = 0; i < T; i += 1) {
             Percolation p = pf.make(N);
@@ -17,10 +17,15 @@ public class PercolationStats {
             while (!p.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
+                if (p.isOpen(row, col)) {
+
+                }
                 p.open(row, col);
             }
-
-            stats[i] = p.numberOfOpenSites() / (N * N);
+            
+            double openSites = p.numberOfOpenSites();
+            double totalSites = N * N;
+            stats[i] = openSites / totalSites;
         }
     }
 
@@ -42,4 +47,12 @@ public class PercolationStats {
         return this.mean() + 1.96 * stddevSqrt / Math.sqrt(stats.length);
     }
 
+    public static void main(String[] args) {
+        PercolationFactory pf = new PercolationFactory();
+        PercolationStats ps = new PercolationStats(10, 10, pf);
+        System.out.println(ps.mean());
+        System.out.println(ps.stddev());
+        System.out.println(ps.confidenceLow());
+        System.out.println(ps.confidenceHigh());
+    }
 }
