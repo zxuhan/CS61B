@@ -45,15 +45,7 @@ public class Percolation {
 
         int currentSite = turn2DTo1D(row, col);
 
-        // Connect the first row with the visual top site.
-        if (row == 0) {
-            djSet.union(currentSite, visualTopSite);
-        }
-        // Before percolates, connect the last row with the visual top site.
-        if (!percolates() && row == gridSize - 1) {
-            djSet.union(currentSite, visualDownSite);
-        }
-
+        // Let current site connects each other
         if (checkSide(row - 1, col) && isOpen(row - 1, col)) {
             djSet.union(currentSite, turn2DTo1D(row - 1, col));
         }
@@ -68,6 +60,16 @@ public class Percolation {
 
         if (checkSide(row, col + 1) && isOpen(row, col + 1)) {
             djSet.union(currentSite, turn2DTo1D(row, col + 1));
+        }
+
+        // Connect the first row with the visual top site.
+        if (row == 0) {
+            djSet.union(currentSite, visualTopSite);
+        }
+        
+        // Before percolates, connect the last row with the visual top site if it has connected
+        if (!percolates() && row == gridSize - 1 && djSet.connected(currentSite, visualTopSite)) {
+            djSet.union(currentSite, visualDownSite);
         }
 
     }

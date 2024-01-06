@@ -5,21 +5,20 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
     private double[] stats;
+    private double sqrtT;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
-            throw new IllegalArgumentException("the size and experiment times should be positive numbers!");
+            throw new IllegalArgumentException("the size and times should be positive numbers!");
         }   
         stats = new double[T];
+        sqrtT = Math.sqrt(T);
         for (int i = 0; i < T; i += 1) {
             Percolation p = pf.make(N);
 
             while (!p.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
-                if (p.isOpen(row, col)) {
-
-                }
                 p.open(row, col);
             }
             
@@ -38,21 +37,13 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        double stddevSqrt = Math.sqrt(this.stddev());
-        return this.mean() - 1.96 * stddevSqrt / Math.sqrt(stats.length);
+        double sqrtStddev = Math.sqrt(this.stddev());
+        return this.mean() - 1.96 * sqrtStddev / sqrtT;
     }
 
     public double confidenceHigh() {
-        double stddevSqrt = Math.sqrt(this.stddev());
-        return this.mean() + 1.96 * stddevSqrt / Math.sqrt(stats.length);
+        double sqrtStddev = Math.sqrt(this.stddev());
+        return this.mean() + 1.96 * sqrtStddev / sqrtT;
     }
 
-    public static void main(String[] args) {
-        PercolationFactory pf = new PercolationFactory();
-        PercolationStats ps = new PercolationStats(10, 10, pf);
-        System.out.println(ps.mean());
-        System.out.println(ps.stddev());
-        System.out.println(ps.confidenceLow());
-        System.out.println(ps.confidenceHigh());
-    }
 }
