@@ -7,6 +7,7 @@ public class Percolation {
     private int openSites;
     private int gridSize;
     private WeightedQuickUnionUF djSet;
+    private WeightedQuickUnionUF djSetWithoutBottom;
     private int visualTopSite;
     private int visualDownSite;
 
@@ -24,6 +25,7 @@ public class Percolation {
         }
 
         djSet = new WeightedQuickUnionUF(N * N + 2);
+        djSetWithoutBottom = new WeightedQuickUnionUF(N * N + 2);
 
         //Set a visual top site and a visual down site
         visualTopSite = N * N;
@@ -48,32 +50,37 @@ public class Percolation {
         // Connect the first row with the visual top site.
         if (row == 0) {
             djSet.union(currentSite, visualTopSite);
+            djSetWithoutBottom.union(currentSite, visualTopSite);
         }
 
         // Let current site connects each other
         if (checkSide(row - 1, col) && isOpen(row - 1, col)) {
             djSet.union(currentSite, turn2DTo1D(row - 1, col));
+            djSetWithoutBottom.union(currentSite, turn2DTo1D(row - 1, col));
         }
 
         if (checkSide(row + 1, col) && isOpen(row + 1, col)) {
             djSet.union(currentSite, turn2DTo1D(row + 1, col));
+            djSetWithoutBottom.union(currentSite, turn2DTo1D(row + 1, col));
         }
 
         if (checkSide(row, col - 1) && isOpen(row, col - 1)) {
             djSet.union(currentSite, turn2DTo1D(row, col - 1));
+            djSetWithoutBottom.union(currentSite, turn2DTo1D(row, col - 1));
         }
 
         if (checkSide(row, col + 1) && isOpen(row, col + 1)) {
             djSet.union(currentSite, turn2DTo1D(row, col + 1));
+            djSetWithoutBottom.union(currentSite, turn2DTo1D(row, col + 1));
         }
-        
+
         // Before percolates, connect the last row with the visual top site if it has connected
         if (!percolates() && row == gridSize - 1) {
             djSet.union(currentSite, visualDownSite);
         }
 
     }
-
+ 
     public boolean isOpen(int row, int col) {
         if (!checkSide(row, col)) {
             throw new IndexOutOfBoundsException("Site is not inside the grid!");
@@ -88,7 +95,7 @@ public class Percolation {
         if (!isOpen(row, col)) {
             return false;
         }
-        return djSet.connected(visualTopSite, turn2DTo1D(row, col));
+        return djSetWithoutBottom.connected(visualTopSite, turn2DTo1D(row, col));    
     }
 
     public int numberOfOpenSites() {

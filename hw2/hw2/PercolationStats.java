@@ -5,14 +5,12 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
     private double[] stats;
-    private double sqrtT;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("the size and times should be positive numbers!");
         }   
         stats = new double[T];
-        sqrtT = Math.sqrt(T);
         for (int i = 0; i < T; i += 1) {
             Percolation p = pf.make(N);
 
@@ -22,9 +20,7 @@ public class PercolationStats {
                 p.open(row, col);
             }
             
-            double openSites = p.numberOfOpenSites();
-            double totalSites = N * N;
-            stats[i] = openSites / totalSites;
+            stats[i] = (double) p.numberOfOpenSites() / (N * N);
         }
     }
 
@@ -37,15 +33,10 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        double sqrtStddev = Math.sqrt(this.stddev());
-        double sampleMean = this.mean();
-        return sampleMean - 1.96 * sqrtStddev / sqrtT;
+        return mean() - 1.96 * stddev() / Math.sqrt(stats.length);
     }
 
     public double confidenceHigh() {
-        double sqrtStddev = Math.sqrt(this.stddev());
-        double sampleMean = this.mean();
-        return sampleMean + 1.96 * sqrtStddev / sqrtT;
+        return mean() + 1.96 * stddev() / Math.sqrt(stats.length);
     }
-    
 }
