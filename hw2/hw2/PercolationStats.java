@@ -38,12 +38,14 @@ public class PercolationStats {
 
     public double confidenceLow() {
         double sqrtStddev = Math.sqrt(this.stddev());
-        return this.mean() - 1.96 * sqrtStddev / sqrtT;
+        double sampleMean = this.mean();
+        return sampleMean - 1.96 * sqrtStddev / sqrtT;
     }
 
     public double confidenceHigh() {
         double sqrtStddev = Math.sqrt(this.stddev());
-        return this.mean() + 1.96 * sqrtStddev / sqrtT;
+        double sampleMean = this.mean();
+        return sampleMean + 1.96 * sqrtStddev / sqrtT;
     }
-
+    
 }
