@@ -1,15 +1,14 @@
 package hw3.hash;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 
 public class TestSimpleOomage {
@@ -25,10 +24,23 @@ public class TestSimpleOomage {
 
     @Test
     public void testHashCodePerfect() {
-        /* TODO: Write a test that ensures the hashCode is perfect,
+        /* Write a test that ensures the hashCode is perfect,
           meaning no two SimpleOomages should EVER have the same
           hashCode UNLESS they have the same red, blue, and green values!
          */
+        SimpleOomage so1 = new SimpleOomage(5,10,20);
+        SimpleOomage so2 = new SimpleOomage(5, 20, 10);
+        SimpleOomage so3 = new SimpleOomage(20, 10, 5);
+        SimpleOomage so4 = new SimpleOomage(20, 5, 10);
+        SimpleOomage so5 = new SimpleOomage(10, 5, 20);
+        SimpleOomage so6 = new SimpleOomage(10,20,5);
+        SimpleOomage so7 = new SimpleOomage(5,10,20);
+        assertFalse(so1.hashCode() == so2.hashCode());
+        assertFalse(so1.hashCode() == so3.hashCode());
+        assertFalse(so1.hashCode() == so4.hashCode());
+        assertFalse(so1.hashCode() == so5.hashCode());
+        assertFalse(so1.hashCode() == so6.hashCode());
+        assertTrue(so1.hashCode() == so7.hashCode());
     }
 
     @Test
@@ -42,7 +54,6 @@ public class TestSimpleOomage {
         assertNotEquals(ooA, "ketchup");
     }
 
-    /*
     @Test
     public void testHashCodeAndEqualsConsistency() {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
@@ -50,10 +61,9 @@ public class TestSimpleOomage {
         HashSet<SimpleOomage> hashSet = new HashSet<>();
         hashSet.add(ooA);
         assertTrue(hashSet.contains(ooA2));
-    }*/
+    }
 
-    /* TODO: Uncomment this test after you finish haveNiceHashCode Spread in OomageTestUtility */
-    /*@Test
+    @Test
     public void testRandomOomagesHashCodeSpread() {
         List<Oomage> oomages = new ArrayList<>();
         int N = 10000;
@@ -63,9 +73,11 @@ public class TestSimpleOomage {
         }
 
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(oomages, 10));
-    }*/
+    }
 
-    /** Calls tests for SimpleOomage. */
+    /**
+     * Calls tests for SimpleOomage.
+     */
     public static void main(String[] args) {
         jh61b.junit.textui.runClasses(TestSimpleOomage.class);
     }
