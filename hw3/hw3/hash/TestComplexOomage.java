@@ -2,7 +2,6 @@ package hw3.hash;
 
 import org.junit.Test;
 
-import edu.princeton.cs.algs4.StdRandom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
