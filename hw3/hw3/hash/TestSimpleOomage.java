@@ -3,7 +3,6 @@ package hw3.hash;
 import org.junit.Test;
 
 
-import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -28,13 +27,13 @@ public class TestSimpleOomage {
           meaning no two SimpleOomages should EVER have the same
           hashCode UNLESS they have the same red, blue, and green values!
          */
-        SimpleOomage so1 = new SimpleOomage(5,10,20);
+        SimpleOomage so1 = new SimpleOomage(5, 10, 20);
         SimpleOomage so2 = new SimpleOomage(5, 20, 10);
         SimpleOomage so3 = new SimpleOomage(20, 10, 5);
         SimpleOomage so4 = new SimpleOomage(20, 5, 10);
         SimpleOomage so5 = new SimpleOomage(10, 5, 20);
-        SimpleOomage so6 = new SimpleOomage(10,20,5);
-        SimpleOomage so7 = new SimpleOomage(5,10,20);
+        SimpleOomage so6 = new SimpleOomage(10, 20, 5);
+        SimpleOomage so7 = new SimpleOomage(5, 10, 20);
         assertFalse(so1.hashCode() == so2.hashCode());
         assertFalse(so1.hashCode() == so3.hashCode());
         assertFalse(so1.hashCode() == so4.hashCode());
