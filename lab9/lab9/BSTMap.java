@@ -132,7 +132,59 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public V remove(K key) {
         throw new UnsupportedOperationException();
+        /* if (key == null) {
+            return null;
+        }
+        if (key.compareTo(root.key) == 0 && size == 1) {
+            V rValue = root.value;
+            root = null;
+            size -= 1;
+            return rValue;
+        }
+        if (key.compareTo(root.key) < 0) {
+            return removeHelper(key, root, root.left, true);
+        } else {
+            return removeHelper(key, root, root.right, false);
+        } */
     }
+
+    /* private V removeHelper(K key, Node prev, Node curr, boolean flag) {
+        if (curr == null) {
+            return null;
+        }
+        if (key.compareTo(curr.key) < 0) {
+            return removeHelper(key, curr, curr.left, true);
+        }
+        if (key.compareTo(curr.key) > 0) {
+            return removeHelper(key, curr, curr.right, false);
+        }
+        V rValue = curr.value;
+        if (curr.left != null && curr.right == null) {
+            if (flag) {
+                prev.left = curr.left;
+            } else {
+                prev.right = curr.left;
+            }
+        } else if (curr.left == null && curr.right != null) {
+            if (flag) {
+                prev.left = curr.right;
+            } else {
+                prev.right = curr.right;
+            }
+        } else if (curr.left != null && curr.right != null) {
+            Node largeLeft = findLeftSecondLargestItem(curr);
+        }
+        curr = null;
+        size -= 1;
+        return rValue;
+    }
+    
+    private Node findLeftSecondLargestItem(Node p) {
+        Node temp = p.left;
+        while (temp) {
+            
+        }
+    } */
 
     /** Removes the key-value entry for the specified key only if it is
      *  currently mapped to the specified value.  Returns the VALUE removed,
@@ -145,6 +197,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }
