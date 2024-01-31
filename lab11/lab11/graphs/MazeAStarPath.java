@@ -47,6 +47,7 @@ public class MazeAStarPath extends MazeExplorer {
         while (!AStarPQ.isEmpty()) {
             SearchNode delVertex = AStarPQ.delMin();
             marked[delVertex.vertex] = true;
+            announce();
 
             if (delVertex.vertex == t) {
                 targetFound = true;
@@ -60,6 +61,7 @@ public class MazeAStarPath extends MazeExplorer {
                 }
                 distTo[i] = distTo[delVertex.vertex] + 1;
                 edgeTo[i] = delVertex.vertex;
+                announce();
                 SearchNode p = new SearchNode(i, distTo[i] + h(i));
                 AStarPQ.insert(p);
             }
