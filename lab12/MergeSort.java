@@ -72,6 +72,10 @@ public class MergeSort {
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
+        if (items.size() <= 1) {
+            return items;
+        }
+
         Queue<Queue<Item>> singleItemqQueue = makeSingleItemQueues(items);
         while (singleItemqQueue.size() > 1) {
             Queue<Item> q1 = singleItemqQueue.dequeue();
@@ -79,6 +83,7 @@ public class MergeSort {
             Queue<Item> msq = mergeSortedQueues(q1, q2);
             singleItemqQueue.enqueue(msq);
         }
+        
         return singleItemqQueue.dequeue();
     }
 
