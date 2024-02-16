@@ -1,3 +1,5 @@
+import static org.junit.Assert.fail;
+
 /**
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
@@ -66,7 +68,80 @@ public class CountingSort {
      * @param arr int array that will be sorted
      */
     public static int[] betterCountingSort(int[] arr) {
-        // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        // make counting sort work with arrays containing negative numbers.
+
+        // find min
+        int min = Integer.MAX_VALUE;
+        for (int i : arr) {
+            min = i < min ? i : min;
+        }
+
+        // find max
+        int max = Integer.MIN_VALUE;
+        for (int i : arr) {
+            max = i > max ? i : max;
+        }
+
+        // count 0 and positive numbers
+        int[] countP = new int[max + 1];
+        // count negative nunbers
+        int[] countN = new int[-min + 1];
+
+        for (int i : arr) {
+            if (i < 0) {
+                countN[-i] += 1;
+            } else {
+                countP[i] += 1;
+            }
+        }
+
+        // approach1: copy ints
+        int[] sorted1 = new int[arr.length];
+        int k = 0;
+        if (min < 0) {
+            for (int i = countN.length - 1; i >= 1; i -= 1) {
+                for (int j = 0; j < countN[i]; j += 1, k += 1) {
+                    sorted1[k] = -i;
+                }
+            }
+        }
+        
+        for (int i = 0; i < countP.length; i += 1) {
+            for (int j = 0; j < countP[i]; j += 1, k += 1) {
+                sorted1[k] = i;
+            }
+        }
+        
+        // approach2: create general start arr
+        int[] sorted2 = new int[arr.length];
+        int[] startN = new int[-min + 1];
+        int[] startP = new int[max + 1];
+        
+        int pos = 0;
+        if (min < 0) {
+            for (int i = countN.length - 1; i >= 1; i -= 1) {
+                startN[i] = pos;
+                pos += countN[i];
+            }
+        }
+        for (int i = 0; i < countP.length; i += 1) {
+            startP[i] = pos;
+            pos += countP[i];
+        }
+        
+        for (int i = 0; i < arr.length; i += 1) {
+            int item = arr[i];
+            if (item < 0) {
+                int place = startN[-item];
+                sorted2[place] = item;
+                startN[-item] += 1;
+            } else {
+                int place = startP[item];
+                sorted2[place] = item;
+                startP[item] += 1;
+            }
+        }
+
+        return sorted2;
     }
 }
