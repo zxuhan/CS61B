@@ -142,6 +142,6 @@ public class CountingSort {
             }
         }
 
-        return sorted2;
+        return sorted1;
     }
 }

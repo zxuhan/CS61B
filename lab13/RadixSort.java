@@ -16,8 +16,35 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        // Implement LSD Sort
+        
+        // get the max length
+        int maxLength = 0;
+        for (String ascii : asciis) {
+            if (ascii.length() > maxLength) {
+                maxLength = ascii.length();
+            }
+        }
+
+        // create a new arr
+        String[] newAsciis = new String[asciis.length];
+        for (int i = 0; i < asciis.length; i += 1) {
+            StringBuilder sb = new StringBuilder(asciis[i]);
+            if (asciis[i].length() < maxLength) {
+                int diff = maxLength - asciis[i].length();
+                for (int j = 0; j < diff; j += 1) {
+                    sb.append((char) 0);
+                }
+            }
+            newAsciis[i] = sb.toString();
+        }
+
+        // sort new arr
+        for (int index = maxLength - 1; index >= 0; index -= 1) {
+            newAsciis = sortHelperLSD(newAsciis, index);
+        }
+
+        return newAsciis;
     }
 
     /**
@@ -26,9 +53,31 @@ public class RadixSort {
      * @param asciis Input array of Strings
      * @param index The position to sort the Strings on.
      */
-    private static void sortHelperLSD(String[] asciis, int index) {
+    private static String[] sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
-        return;
+        String[] sorted = new String[asciis.length];
+        int[] count = new int[256];
+        for (String ascii : asciis) {
+            int digit = (int) ascii.charAt(index);
+            count[digit] += 1;
+        }
+
+        int[] start = new int[256];
+        int pos = 0;
+        for (int i = 0; i < start.length; i += 1) {
+            start[i] = pos;
+            pos += count[i];
+        }
+        
+        for (int i = 0; i < asciis.length; i += 1) {
+            String item = asciis[i];
+            int digit = (int) item.charAt(index);
+            int place = start[digit];
+            sorted[place] = item;
+            start[digit] += 1;
+        }
+        
+        return sorted;
     }
 
     /**
