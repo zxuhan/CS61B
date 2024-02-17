@@ -71,9 +71,9 @@ public class CountingSort {
         // make counting sort work with arrays containing negative numbers.
 
         if (arr.length == 0) {
-            return null;
+            return arr;
         }
-        
+
         // find min and max
         int min = arr[0];
         int max = arr[0];
