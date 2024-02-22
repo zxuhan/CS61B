@@ -33,7 +33,7 @@ public class HuffmanEncoder {
             BitSequence bs = lookupTable.get(ch);
             bitList.add(bs);
         }
-        BitSequence encodedSequence= BitSequence.assemble(bitList);
+        BitSequence encodedSequence = BitSequence.assemble(bitList);
         
         ow.writeObject(encodedSequence);
     }

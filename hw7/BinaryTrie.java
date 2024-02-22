@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.MinPQ;
 public class BinaryTrie implements Serializable {
     private Node root;
 
-    private class Node implements Comparable<Node>, Serializable{
+    private class Node implements Comparable<Node>, Serializable {
         private char ch;
         private int freq;
         private Node left;
