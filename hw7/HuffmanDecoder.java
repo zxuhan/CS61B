@@ -12,9 +12,7 @@ public class HuffmanDecoder {
             charBuilder.append(m.getSymbol());
             int pos = m.getSequence().length();
 
-            String original = encodedText.toString();
-            String rest = original.substring(pos); 
-            encodedText = new BitSequence(rest);
+            encodedText = encodedText.allButFirstNBits(pos);
 
             length -= pos;
         }
