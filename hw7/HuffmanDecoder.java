@@ -4,21 +4,22 @@ public class HuffmanDecoder {
         
         BinaryTrie binaryDecodingTrie = (BinaryTrie) or.readObject();
         BitSequence encodedText = (BitSequence) or.readObject();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder charBuilder = new StringBuilder();
+        int length = encodedText.length();
         
-        while (encodedText.length() > 0) {
+        while (length > 0) {
             Match m = binaryDecodingTrie.longestPrefixMatch(encodedText);
-            sb.append(m.getSymbol());
-            
+            charBuilder.append(m.getSymbol());
             int pos = m.getSequence().length();
-            BitSequence restSequence = new BitSequence(); 
-            for (int i = pos; i < encodedText.length(); i += 1) {
-                restSequence.appended(encodedText.bitAt(i));
-            }
-            encodedText = restSequence;
+
+            String original = encodedText.toString();
+            String rest = original.substring(pos); 
+            encodedText = new BitSequence(rest);
+
+            length -= pos;
         }
         
-        String output = sb.toString();
+        String output = charBuilder.toString();
         char[] outputSymbols = output.toCharArray();
         
         FileUtils.writeCharArray(args[1], outputSymbols);
