@@ -87,14 +87,16 @@ public class SeamCarver {
 
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
+        int[] horizontalSeam = new int[width];
         if (height == 1) {
-            return null;
+            return horizontalSeam;
         }
+
         double[][] oldEnergyTable = energyTable;
         double[][] newEnergyTable = rotateMatrixBy90(energyTable);
         energyTable = newEnergyTable;
         
-        int[] horizontalSeam = findVerticalSeam();
+        horizontalSeam = findVerticalSeam();
         energyTable = oldEnergyTable;
 
         // reverse the array to get the correct sequence
@@ -124,13 +126,15 @@ public class SeamCarver {
     
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
-        if (width == 1) {
-            return null;
-        }
         int rows = energyTable.length;
         int cols = energyTable[0].length;
 
         int[] verticalSeam = new int[rows];
+
+        if (cols == 1) {
+            return verticalSeam;
+        }
+
         // record the index from the upper row
         int[][] pathTo = new int[rows][cols];
         // calculate the min energy for each position
@@ -211,7 +215,7 @@ public class SeamCarver {
         if (seam == null) {
             throw new IllegalArgumentException("input array can't be null!");
         }
-        if (seam.length!=width) {
+        if (seam.length != width) {
             throw new IllegalArgumentException("Wrong array length!");
         }
         for (int i = 0; i < seam.length - 1; i += 1) {
