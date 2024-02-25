@@ -64,7 +64,7 @@ public class SeamCarver {
 
     // current picture
     public Picture picture() {
-        return currentPicture;
+        return new Picture(currentPicture);
     }
 
     // width of current picture
@@ -87,6 +87,9 @@ public class SeamCarver {
 
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
+        if (height == 1) {
+            return null;
+        }
         double[][] oldEnergyTable = energyTable;
         double[][] newEnergyTable = rotateMatrixBy90(energyTable);
         energyTable = newEnergyTable;
@@ -121,6 +124,9 @@ public class SeamCarver {
     
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
+        if (width == 1) {
+            return null;
+        }
         int rows = energyTable.length;
         int cols = energyTable[0].length;
 
@@ -202,11 +208,15 @@ public class SeamCarver {
     
     // remove horizontal seam from picture
     public void removeHorizontalSeam(int[] seam) {
-        if (seam.length != width) {
+        if (seam == null) {
+            throw new IllegalArgumentException("input array can't be null!");
+        }
+        if (seam.length!=width) {
             throw new IllegalArgumentException("Wrong array length!");
         }
         for (int i = 0; i < seam.length - 1; i += 1) {
-            if (Math.abs(seam[i + 1] - seam[i]) > 1) {
+            int diff = seam[i + 1] - seam[i];
+            if (diff > 1 || diff < -1) {
                 throw new IllegalArgumentException("Array is not a valid seam!");
             }
         }
@@ -216,11 +226,15 @@ public class SeamCarver {
     
     // remove vertical seam from picture
     public void removeVerticalSeam(int[] seam) {
+        if (seam == null) {
+            throw new IllegalArgumentException("input array can't be null!");
+        }
         if (seam.length != height) {
             throw new IllegalArgumentException("Wrong array length!");
         }
         for (int i = 0; i < seam.length - 1; i += 1) {
-            if (Math.abs(seam[i + 1] - seam[i]) > 1) {
+            int diff = seam[i + 1] - seam[i];
+            if (diff > 1 || diff < -1) {
                 throw new IllegalArgumentException("Array is not a valid seam!");
             }
         }
